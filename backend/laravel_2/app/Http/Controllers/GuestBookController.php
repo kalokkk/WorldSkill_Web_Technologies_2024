@@ -10,6 +10,7 @@ class GuestBookController extends Controller
 {
     public function index() {
         $comments = DB::table('comments')
+                        ->orderBy('id', 'desc')
                         ->get();
 
         return view('guest_book', compact('comments'));
