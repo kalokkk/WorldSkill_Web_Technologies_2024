@@ -1,0 +1,68 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: beige;
+}
+
+.container {
+    background-color: #f5f5f5;
+    width: 40rem;
+    margin-block: 6rem;
+    margin-inline: auto;
+    padding: 2rem;
+    box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.header {
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.comment-block {
+    margin-top: 1rem;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    width: 100%;
+    background-color: #ededed;
+    padding: 10px;
+}
+
+.details {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.btn-group {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+section.submit form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+section.submit form input[name="user_name"] {
+    max-width: 10rem;
+}
+
+section.submit form button {
+    max-width: 4rem;
+    align-self: center;
+}
