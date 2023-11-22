@@ -16,4 +16,4 @@ use App\Http\Controllers\GuestBookController;
 Route::get('/', [GuestBookController::class, 'index']);
 Route::post('/comment', [GuestBookController::class, 'store']);
 Route::delete('/comment', [GuestBookController::class, 'delete']);
-Route::patch('/comment', [GuestBookController::class, 'like']);
+Route::put('/comment', [GuestBookController::class, 'like']);

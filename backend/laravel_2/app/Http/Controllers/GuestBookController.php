@@ -27,7 +27,23 @@ class GuestBookController extends Controller
         return redirect()->action([GuestBookController::class, 'index']);
     }
 
-    public function delele(Request $request) {
+    public function like(Request $request) {
+        $id = $request->input('id', null);
+
+        if (isset($id)) {
+            $comment = DB::table('comments')
+                ->where('id', $id)
+                ->first();
+
+            DB::table('comments')
+                ->where('id', $id)
+                ->update(['like_count' => $comment->like_count + 1]);
+        }
+
+        return redirect()->action([GuestBookController::class, 'index']);
+    }
+
+    public function delete(Request $request) {
         $id = $request->input('id', null);
 
         if (isset($id)) {

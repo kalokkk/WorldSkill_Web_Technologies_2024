@@ -25,14 +25,17 @@
                         </div>
                         <div class="">
                             <div class="">
-                                <form method="PATCH" action="{{ url('/comment') }}">
+                                <form method="POST" action="{{ url('/comment') }}">
+                                    @method('PUT')
                                     @csrf
+                                    {{-- {{ method_field('PUT') }} --}}
                                     <input type="hidden" name="id" value="{{$comment->id}}">
                                     <button>Like</button>
                                 </form>
                                 <span>Like count: {{ $comment->like_count }}</span>
                             </div>
-                            <form method="DELETE" action="{{ url('/comment') }}">
+                            <form method="POST" action="{{ url('/comment') }}">
+                                @method('DELETE')
                                 @csrf
                                 <input type="hidden" name="id" value="{{$comment->id}}">
                                 <button>Delete</button>
