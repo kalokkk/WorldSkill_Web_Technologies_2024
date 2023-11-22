@@ -31,13 +31,17 @@ class GuestBookController extends Controller
         $id = $request->input('id', null);
 
         if (isset($id)) {
-            $comment = DB::table('comments')
-                ->where('id', $id)
-                ->first();
+            // $comment = DB::table('comments')
+            //     ->where('id', $id)
+            //     ->first();
+
+            // DB::table('comments')
+            //     ->where('id', $id)
+            //     ->update(['like_count' => $comment->like_count + 1]);
 
             DB::table('comments')
                 ->where('id', $id)
-                ->update(['like_count' => $comment->like_count + 1]);
+                ->increment('like_count');
         }
 
         return redirect()->action([GuestBookController::class, 'index']);
