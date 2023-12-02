@@ -1,0 +1,15 @@
+* {
+    box-sizing: border-box;
+}
+
+#board {
+    display: grid;
+}
+
+.cell {
+    width: 20px;
+    height: 20px;
+    background: rgba(230, 230, 230, 1) content-box;
+    border: 1px solid gainsboro;
+    padding: 2px;
+}
