@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GuestBookController;
+use App\Http\Controllers\CaptchaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,5 +38,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/comment', [GuestBookController::class, 'delete']);
     Route::put('/comment', [GuestBookController::class, 'like']);
 });
+
+Route::prefix('captcha')->group(function() {
+    Route::get('/image', [CaptchaController::class, 'generateImage'])->name('captcha.image');
+    Route::get('/', [CaptchaController::class, 'index'])->name('captcha.index');
+    Route::post('/', [CaptchaController::class, 'submit'])->middleware('verify.captcha')->name('captcha.submit');
+    Route::get('/error', [CaptchaController::class, 'error'])->name('captcha.error');
+});
+
+// /captcha CaptchaController::getCaptcha
+// /form DemoController::index
+// /form DemoController::submitForm
+// verify.captcha
 
 require __DIR__.'/auth.php';
