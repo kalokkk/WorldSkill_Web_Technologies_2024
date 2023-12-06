@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function(Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->string('comment');
+            $table->unsignedBigInteger('user_id');
+            $table->string("user_name");
+            $table->string("message");
+            $table->integer('like_count')->default(0);
             $table->timestamps();
-        });   
+            
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**
