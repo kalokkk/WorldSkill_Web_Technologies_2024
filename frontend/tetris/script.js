@@ -1,3 +1,6 @@
+let isDropping = false;
+let isRunning = false;
+
 const NUMBER_COLUMN = 10;
 const NUMBER_ROW = 20;
 const SIZE_CELL = 20;// in px;
@@ -60,7 +63,8 @@ function initialCell(index) {
 function getRandomShape() {
     const shapes = [SHAPE_STICK ,SHAPE_L ,SHAPE_L2 ,SHAPE_S ,SHAPE_S2 ,SHAPE_SQUARE ,SHAPE_PYRAMID];
 
-    return shapes[0];
+    const randomIndex = Math.floor(Math.random()*(shapes.length-1));
+    return shapes[randomIndex];
 }
 
 function dropNewShape(row,col) {
@@ -72,7 +76,7 @@ function dropNewShape(row,col) {
     
     shape.forEach((rows, rowIndex) => {
         rows.forEach((pixel, colIndex)=> {
-            if (!pixel === 1) {
+            if (pixel !== 1) {
                 return;
             }
             // cellElements[(startingPoint[1]+colIndex) + (startingPoint[0]+rowIndex)*NUMBER_COLUMN].classList.add('active');
@@ -99,22 +103,53 @@ function projectShapes() {
 }
 
 function shapeDropping() {
-    if (!allCells.includes(2)) return;
-    const newAllCells = [...allCells];
+    if (!allCells.includes(2)) {
+        isDropping = false;
+        return;
+    }
 
-    newAllCells.reverse().map((cell, index) => {
-        if (cell !== 2) return;
+    let newAllCells = [...allCells];
+
+
+    // newAllCells.reverse().map((cell, index) => {
+    //     if (cell !== 2) return;
+    //     if (index-NUMBER_COLUMN < 0 || (typeof newAllCells[index-NUMBER_COLUMN] !== 'undefined' && newAllCells[index-NUMBER_COLUMN] !== 0)) {
+    //         newAllCells[index] = 1;
+    //         return;
+    //     };
+
+    //     newAllCells[index] = 0;
+    //     newAllCells[index-NUMBER_COLUMN] = 2;
+    // });
+
+    newAllCells.reverse();
+    for (let index=0;index<newAllCells.length;index++) {
+        if (newAllCells[index] !== 2) continue;
         if (index-NUMBER_COLUMN < 0 || (typeof newAllCells[index-NUMBER_COLUMN] !== 'undefined' && newAllCells[index-NUMBER_COLUMN] !== 0)) {
             newAllCells[index] = 1;
-            return;
+            newAllCells = newAllCells.map((cell, i) => {
+                return cell === 2 ? 1 : cell;
+            });
+            console.log(newAllCells);
+            break;
         };
 
         newAllCells[index] = 0;
         newAllCells[index-NUMBER_COLUMN] = 2;
-    });
-
+    }
+    
     newAllCells.reverse();
     allCells = [...newAllCells];
+    // newAllCells.reverse().map((cell, index) => {
+    //     if (cell !== 2) return;
+    //     if (index-NUMBER_COLUMN < 0 || (typeof newAllCells[index-NUMBER_COLUMN] !== 'undefined' && newAllCells[index-NUMBER_COLUMN] !== 0)) {
+    //         newAllCells[index] = 1;
+    //         return;
+    //     };
+
+    //     newAllCells[index] = 0;
+    //     newAllCells[index-NUMBER_COLUMN] = 2;
+    // });
     // allCells.map((cell, index) => {
     //     if (cell !== 2) return;
     //     if (index+NUMBER_COLUMN > NUMBER_ROW*NUMBER_COLUMN-1) return;
@@ -127,15 +162,24 @@ function shapeDropping() {
 function main() {
     initialGameBoard();
 
-    const positionX = Math.floor(Math.random() * (NUMBER_COLUMN-4) + 2);
-    dropNewShape(0,positionX);
-    projectShapes();
+    // const positionX = Math.floor(Math.random() * (NUMBER_COLUMN-4) + 2);
+    // dropNewShape(0,positionX);
+    // projectShapes();
     
     // shapeDropping();
     // projectShapes();
     setInterval(() => {
-        
-        shapeDropping();
-        projectShapes();
+        do {
+            if (!isDropping) {
+                const positionX = Math.floor(Math.random() * (NUMBER_COLUMN-4) + 2);
+                dropNewShape(0,positionX);
+                isDropping = true;
+
+                projectShapes();
+                continue;
+            }
+            shapeDropping();
+            projectShapes();
+        } while (isRunning);
     }, DROP_TIME_IN_MS);
 }
