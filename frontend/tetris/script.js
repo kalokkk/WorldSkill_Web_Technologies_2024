@@ -110,18 +110,6 @@ function shapeDropping() {
 
     let newAllCells = [...allCells];
 
-
-    // newAllCells.reverse().map((cell, index) => {
-    //     if (cell !== 2) return;
-    //     if (index-NUMBER_COLUMN < 0 || (typeof newAllCells[index-NUMBER_COLUMN] !== 'undefined' && newAllCells[index-NUMBER_COLUMN] !== 0)) {
-    //         newAllCells[index] = 1;
-    //         return;
-    //     };
-
-    //     newAllCells[index] = 0;
-    //     newAllCells[index-NUMBER_COLUMN] = 2;
-    // });
-
     newAllCells.reverse();
     for (let index=0;index<newAllCells.length;index++) {
         if (newAllCells[index] !== 2) continue;
@@ -140,23 +128,32 @@ function shapeDropping() {
     
     newAllCells.reverse();
     allCells = [...newAllCells];
-    // newAllCells.reverse().map((cell, index) => {
-    //     if (cell !== 2) return;
-    //     if (index-NUMBER_COLUMN < 0 || (typeof newAllCells[index-NUMBER_COLUMN] !== 'undefined' && newAllCells[index-NUMBER_COLUMN] !== 0)) {
-    //         newAllCells[index] = 1;
-    //         return;
-    //     };
+}
 
-    //     newAllCells[index] = 0;
-    //     newAllCells[index-NUMBER_COLUMN] = 2;
-    // });
-    // allCells.map((cell, index) => {
-    //     if (cell !== 2) return;
-    //     if (index+NUMBER_COLUMN > NUMBER_ROW*NUMBER_COLUMN-1) return;
+function moveHorizontal(offset) {
+    let newAllCells = [...allCells];
+    if (offset === 1) {
+        const shouldReturn = newAllCells.some((cell, index) => (cell === 2 && index % NUMBER_COLUMN === 9));
+        if (shouldReturn) return;
+    }
 
-    //     if (index-NUMBER_COLUMN < 0 || allCells[index-NUMBER_COLUMN] !== 2) newAllCells[index] = 0;
-    //     newAllCells[index+NUMBER_COLUMN] = 2;
-    // })
+    for (let index=0;index<newAllCells.length;index++) {
+        if (newAllCells[index] !== 2) continue;
+
+        if (offset === -1 && index % NUMBER_COLUMN === 0) break;
+        // if (offset === 1 && allCells.some((cell, index) => cell === 2 && index % NUMBER_COLUMN === 9)) break;
+        // if (offset === 1 && index % NUMBER_COLUMN === 9) break;
+
+        if (offset === -1) {
+            newAllCells[index-1] = 2;
+            newAllCells[index] = 0;
+        }
+        if (offset === 1) {
+            newAllCells[index+1] = 2;
+            if (allCells[index-1] !== 2) newAllCells[index] = 0;
+        }
+    }
+    allCells = [...newAllCells];
 }
 
 function main() {
@@ -178,6 +175,7 @@ function main() {
                 projectShapes();
                 continue;
             }
+            moveHorizontal(1);
             shapeDropping();
             projectShapes();
         } while (isRunning);
