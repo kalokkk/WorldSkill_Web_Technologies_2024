@@ -1,5 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute();
+const router = useRouter();
 
 const dates = ref([]);
 const isEditing = ref(false);
@@ -18,6 +22,11 @@ const onClick = (item) => {
 
   dates.value.push(item.id)
   dates.value = dates.value.sort((a, b) => new Date(a) - new Date(b));
+  replaceParams({dates: dates.value.toString()});
+}
+
+const replaceParams = (newParams) => {
+  router.push({ query: { newParams } });
 }
 
 </script>
