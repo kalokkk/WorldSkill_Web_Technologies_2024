@@ -17,7 +17,7 @@
             </select>
         </label>
         <label for="category">Category
-            <select name="category" id="">
+            <select name="category" id="category">
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
@@ -32,6 +32,7 @@
                 <tr>
                     <td>{{ $book->name }}</td>
                     <td>{{ isset($book->category->name) ? $book->category->name : '' }}</td>
+                    <td>{{ isset($book->authors[0]->name) ? $book->authors[0]->name : '' }}</td>
                     {{-- <td>{{ $book->name }}</td> --}}
                 </tr>
             @endforeach

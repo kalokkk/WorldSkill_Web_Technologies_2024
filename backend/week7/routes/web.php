@@ -21,15 +21,15 @@ Route::get('/', function (Request $request) {
     $books = Book::query();
     if ($request->input('author')) {
         $author = Author::where('name', $request->input('author'))->first();
-        $books->orWhereIn('id', $author->books()->pluck('id'));
+        if ($author && $author->books())  $books->orWhereIn('id', $author->books()->pluck('id'));
     }
     if ($request->input('category')) {
         $category = Category::where('name', $request->input('category'))->first();
-        $books->orWhereIn('id', $category->books()->pluck('id'));
+        if ($category && $category->books()) $books->orWhereIn('id', $category->books()->pluck('id'));
     }
-    $books = $books->get();
+    $books = $books->with('authors')->get();
     $authors = Author::all();
     $categories = Category::all();
-
+    
     return view('home', compact('books', 'authors', 'categories'));
 });
