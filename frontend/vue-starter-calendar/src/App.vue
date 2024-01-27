@@ -89,6 +89,12 @@ const setIsEditing = () => {
   isEditing.value = route.query.isEditing
 }
 
+const handleResetAll = () => {
+  title.value = "Your Title...";
+  dates.value = [];
+  isEditing.value = false;
+}
+
 </script>
 
 <template>
@@ -111,7 +117,7 @@ const setIsEditing = () => {
 
     <div class="right">
       <label for="editing" style="display: block;">
-        Edit Mode:
+        Select Mode:
         <input type="checkbox" v-model="isEditing" name="editing" id="editing">
       </label>
 
@@ -119,6 +125,10 @@ const setIsEditing = () => {
         Title:
         <input type="url" name="title" v-model="title" id="title">
       </label>
+
+      <div class="">
+        <button @click="handleResetAll">Reset All</button>
+      </div>
     </div>
   </main>
 </template>
