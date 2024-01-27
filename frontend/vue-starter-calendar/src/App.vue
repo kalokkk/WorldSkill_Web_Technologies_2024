@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter, watchEffect } from 'vue-router'
+import { ref, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute();
 const router = useRouter();
@@ -16,10 +16,6 @@ const attributes = ref([
   }
 ]);
 
-// watchEffect(() => {
-
-// });
-
 const onClick = (item) => {
   if (!isEditing.value) return;
 
@@ -29,13 +25,12 @@ const onClick = (item) => {
   }
 
   dates.value.push(item.id);
-  console.log(dates.value);
   dates.value = dates.value.sort((a, b) => new Date(a) - new Date(b));
-  const value = encode(dates.value.toString());
-  replaceParams(
-    "dates",
-    value
-  );
+  // const value = encode(dates.value.toString());
+  // replaceParams(
+  //   "dates",
+  //   value
+  // );
 }
 
 const replaceParams = (key, newParams) => {
@@ -50,16 +45,49 @@ const decode = (value) => {
   return atob(value);
 }
 
+watch([title, dates, isEditing], () => {
+  const titleQuery = title.value;
+  const datesQuery = encode(dates.value.toString());
+  const isEditingQuery = isEditing.value;
+
+  router.push({
+    query: {
+      ...route.query,
+      "title": titleQuery,
+      "dates": datesQuery,
+      "isEditing": isEditingQuery,
+    }
+  });
+});
+
 onMounted(async () => {
   await router.isReady();
 
+  setDates();
+  setTitle();
+  setIsEditing();
+})
+
+const setDates = () => {
   if (!route.query.dates) return;
   const datesQuery = decode(route.query.dates);
 
   dates.value = datesQuery.split(",");
   console.log("attribute: ", attributes.value);
   attributes.value.dates = dates;
-})
+}
+
+const setTitle = () => {
+  if (!route.query.title) return;
+
+  title.value = route.query.title
+}
+
+const setIsEditing = () => {
+  if (!route.query.isEditing) return;
+
+  isEditing.value = route.query.isEditing
+}
 
 </script>
 
