@@ -9,7 +9,8 @@ use App\Models\Campsite;
 class CampsiteController extends Controller
 {
     public function list(Request $request) {
-        $campsites = Campsite::all()->with('campsiteImages');
+        // $campsites = Campsite::all();
+        $campsites = Campsite::with('campsiteImages')->get();
 
         return $campsites;
     }
