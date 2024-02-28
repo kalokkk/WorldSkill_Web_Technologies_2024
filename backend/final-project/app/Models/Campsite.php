@@ -17,14 +17,14 @@ class Campsite extends Model
     protected $table = 'campsites';
 
     public function campsiteImages() {
-        $this->hasMany(campsiteImage::Class);
+        return $this->hasMany(CampsiteImage::Class);
     }
 
     public function campsiteSpots() {
-        $this->hasMany(CampsiteSpot::Class);
+        return $this->hasMany(CampsiteSpot::Class);
     }
 
     public function campsiteReservations() {
-        $this->hasMany(CampsiteReservation::Class);
+        return $this->hasMany(CampsiteReservation::Class);
     }
 }

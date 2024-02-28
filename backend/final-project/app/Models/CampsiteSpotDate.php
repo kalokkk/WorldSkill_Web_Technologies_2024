@@ -11,6 +11,6 @@ class CampsiteSpotDate extends Model
     use HasFactory;
 
     public function campsiteSpot() {
-        $this->belongsTo(CampsiteSpot::Class);
+        return $this->belongsTo(CampsiteSpot::Class);
     }
 }

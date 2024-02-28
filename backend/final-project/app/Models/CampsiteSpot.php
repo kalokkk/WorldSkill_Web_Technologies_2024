@@ -12,10 +12,10 @@ class CampsiteSpot extends Model
     use HasFactory;
 
     public function campsite() {
-        $this->belongsTo(Campsite::Class);
+        return $this->belongsTo(Campsite::Class);
     }
 
     public function campsiteDates() {
-        $this->hasMany(CampsiteSpotDate::Class);
+        return $this->hasMany(CampsiteSpotDate::Class);
     }
 }

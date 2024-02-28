@@ -13,6 +13,6 @@ class CampsiteImage extends Model
     protected $table = 'campsite_images';
 
     public function campsite() {
-        $this->belongsTo(Campsite::Class);
+        return $this->belongsTo(Campsite::Class);
     }
 }
